@@ -1,0 +1,40 @@
+# depslib dependency file v1.0
+1481188631 source:/home/UNIV-TOURS/21607739t/Documents/projet2/Dora/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<limits.h>
+	<instance.h>
+	<parseur.h>
+
+1481188330 /home/UNIV-TOURS/21607739t/Documents/projet2/Dora/instance.h
+
+1481188606 /home/UNIV-TOURS/21607739t/Documents/projet2/Dora/parseur.h
+
+1481185030 source:/Volumes/UUI/docs/projet2/Dora/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<limits.h>
+	<instance.h>
+	<parseur.h>
+
+1481797819 source:/Users/Damien/Documents/3A/proj2/Dora/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<limits.h>
+	"instance.h"
+	"parseur.h"
+
+1481796376 source:/Users/Damien/Documents/3A/proj2/Dora/instance.c
+	"instance.h"
+
+1481796360 /Users/Damien/Documents/3A/proj2/Dora/instance.h
+	<stdio.h>
+
+1481185006 /Users/Damien/Documents/3A/proj2/Dora/parseur.h
+
+1481797430 source:/Users/Damien/Documents/3A/proj2/Dora/parseur.c
+	<stdio.h>
+
