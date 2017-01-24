@@ -91,3 +91,8 @@ instance * creerInstance(FILE *fp)
 
     instToString(&inst);
 }
+
+void deleteInstance(instance*  inst)
+{
+
+}

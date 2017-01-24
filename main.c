@@ -23,18 +23,6 @@ void sautLigne(FILE * fp)
 
 int main(int argc, char *argv[])
 {
-    char buf[1024];
-    getcwd(buf,1024);
-    printf("SALOPE %s",buf);
-/*int i;
-
-for (i=0; i<argc; i++)
-{
-    printf("Param %d: %s\n",i, argv[i]);
-}
-*/
-
-printf("chemin fichier %s", argv[1]);
 // data/MKP-Instances/_mknapcb1_res.txt
 parseur(argv[1]);
 }

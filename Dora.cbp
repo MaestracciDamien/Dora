@@ -11,6 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters='&quot;~/Documents/3A/proj2/Dora/data/MKP-Instances/_mknapcb1_res.txt&quot;' />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -31,9 +32,30 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Dora.depend" />
+		<Unit filename="data/MKP-Instances/BestResultsKnown.txt" />
+		<Unit filename="data/MKP-Instances/README.txt" />
+		<Unit filename="data/MKP-Instances/_mknapcb1_res.txt" />
+		<Unit filename="data/MKP-Instances/_mknapcb2_res.txt" />
+		<Unit filename="data/MKP-Instances/_mknapcb3_res.txt" />
+		<Unit filename="data/MKP-Instances/_mknapcb4_res.txt" />
+		<Unit filename="data/MKP-Instances/_mknapcb5_res.txt" />
+		<Unit filename="data/MKP-Instances/_mknapcb6_res.txt" />
+		<Unit filename="data/MKP-Instances/_mknapcb7_res.txt" />
+		<Unit filename="data/MKP-Instances/_mknapcb8_res.txt" />
+		<Unit filename="data/MKP-Instances/_mknapcb9_res.txt" />
+		<Unit filename="instance.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="instance.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="parseur.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="parseur.h" />
+		<Unit filename="test.txt" />
 		<Extensions>
 			<envvars />
 			<code_completion />
