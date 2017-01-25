@@ -1,12 +1,15 @@
-void openSortie(char * chemin)
+#include "sortie.h"
+
+FILE * openSortie(char * chemin)
 {
-    fp = fopen (chemin,"w+");
+    FILE * fp = fopen (chemin,"w+");
     if (fp == NULL)
     {
         exit(-1);
     }
+    return fp;
 }
-void fermerSortie()
+void fermerSortie(FILE * fp)
 {
     fclose(fp);
 }
