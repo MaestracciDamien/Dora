@@ -52,7 +52,7 @@ instance * creerInstance(FILE *fp)
     //sautLigne(fp );
     fgets (s, STRING_BUFFER, fp );
     inst.valeurObj = (int *) malloc (sizeof(int) * inst.nbObjet);
-    if (inst.valeurObj == NULL) exit -1;
+    if (inst.valeurObj == NULL) exit(-1);
     split= strtok(s, " ");
     for (i =0; i< inst.nbObjet; i++)
     {
@@ -62,11 +62,11 @@ instance * creerInstance(FILE *fp)
     fgets (s, STRING_BUFFER, fp );
     //sautLigne( fp );
     inst.poidObj = (int **) malloc (sizeof(int *) * inst.nbDim);
-    if (inst.poidObj == NULL) exit -1;
+    if (inst.poidObj == NULL) exit(-1);
     for (i =0; i<inst.nbDim; i++)
     {
         inst.poidObj[i] = (int *) malloc (sizeof(int) * inst.nbObjet);
-        if (inst.poidObj[i] == NULL) exit -1;
+        if (inst.poidObj[i] == NULL) exit(-1);
         fgets (s, STRING_BUFFER, fp );
         split= strtok(s, " ");
         for (j =0; j< inst.nbObjet; j++)
@@ -81,7 +81,7 @@ instance * creerInstance(FILE *fp)
     //sautLigne( fp );
     fgets (s, STRING_BUFFER, fp );
     inst.capaciteSac = (int *) malloc (sizeof(int)* inst.nbDim);
-    if (inst.capaciteSac == NULL) exit -1;
+    if (inst.capaciteSac == NULL) exit(-1);
     split= strtok(s, " ");
     for (i =0; i< inst.nbDim; i++)
     {

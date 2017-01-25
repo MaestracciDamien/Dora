@@ -118,7 +118,7 @@ void printSolution(solution * sol){
     }
     else {
         for (i =0; i < sol->inst->nbObjet; i++){
-            printf("%d", sol->codageIndirect[i] = i);
+            printf("%d ,", sol->codageIndirect[i] = i);
         }
         printf("%d", sol->codageIndirect[i]);
     }
