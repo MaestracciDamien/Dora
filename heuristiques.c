@@ -1,6 +1,6 @@
 # include "heuristiques.h"
 
-void sortRandom(ins);
+void sortRandom(instance *inst);
 solution * heuristique(instance * inst, functionSort fun, int typeCodage)
 {
     int l = 0;
@@ -37,7 +37,7 @@ int isItemFitting(int * item, int * roomBag, int nbDim)
     int test =1;
     int val;
     int i;
-    while (retour && (i < nbDim) )
+    while (test && (i < nbDim) )
     {
         val = roomBag[i] -  item[i];
         i++;
