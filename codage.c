@@ -5,7 +5,7 @@
 solution * initSolution(instance * inst, int type)
 {
     int i;
-    solution * sol;
+    solution * sol=NULL;
     sol->typeCodage = type;
     sol->inst = inst;
     sol->codageDirect = (int *) malloc (sizeof(int) * inst->nbObjet);
@@ -25,7 +25,6 @@ solution * initSolution(instance * inst, int type)
 void decodeur(solution * sol)
 {
     int i =0;
-    int j;
     int * valDimension;
     int nbDim = sol->inst->nbDim;
     int p;
@@ -40,7 +39,6 @@ void decodeur(solution * sol)
     {
         test =1;
         p =0;
-        j = sol->codageIndirect[i];
         while ( (p< nbDim) && test)
         {
             test = valDimension[p] - sol->inst->poidObj[p][i];
@@ -107,8 +105,45 @@ int isSolutionPossible(solution * sol)
          }
          i++;
     }
-
-
+    return retour;
 }
-void printSolution(solution * sol);
-void solution2File(solution * sol);
+void printSolution(solution * sol){
+    int i;
+    printf("%s","[ ");
+    if (sol->typeCodage == 0){
+        for (i =0; i < sol->inst->nbObjet-1; i++){
+            printf("%d , ", sol->codageDirect[i]);
+        }
+        printf("%d", sol->codageDirect[i]);
+    }
+    else {
+        for (i =0; i < sol->inst->nbObjet; i++){
+            printf("%d ,", sol->codageIndirect[i] = i);
+        }
+        printf("%d", sol->codageIndirect[i]);
+    }
+    printf("%s\n"," ]" );
+};
+
+void solution2File(solution * sol){
+    FILE *f = fopen("solution.txt", "w");
+    if (f == NULL){
+        printf("Error opening file!\n");
+    }
+    int i;
+    fprintf(f,"%s","[ ");
+    if (sol->typeCodage == 0){
+        for (i =0; i < sol->inst->nbObjet-1; i++){
+            fprintf(f,"%d , ", sol->codageDirect[i]);
+        }
+        fprintf(f,"%d", sol->codageDirect[i]);
+    }
+    else {
+        for (i =0; i < sol->inst->nbObjet; i++){
+            fprintf(f,"%d", sol->codageIndirect[i] = i);
+        }
+        fprintf(f,"%d", sol->codageIndirect[i]);
+    }
+    fprintf(f,"%s\n"," ]" );
+    fclose(f);
+}
