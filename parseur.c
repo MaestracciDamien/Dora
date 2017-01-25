@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "parseur.h"
 void parseur(char* chemin)
 {
     FILE * fp;

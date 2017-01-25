@@ -23,7 +23,7 @@ void instToString(instance* inst)
         puts("]");
 
     }
-    printf("\n capacitée Sac[");
+    printf("\n capacite Sac[");
     for (i=0; i< inst->nbDim; i++)
     {
         printf(" %d,",inst->capaciteSac[i]);
@@ -90,6 +90,7 @@ instance * creerInstance(FILE *fp)
     }
 
     instToString(&inst);
+    return &inst;
 }
 
 void deleteInstance(instance*  inst)
