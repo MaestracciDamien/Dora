@@ -70,10 +70,10 @@ int * sortRatioValueSum(instance *inst){
 
 int * sortRatioValueDimCrit(instance *inst){
     int nb = inst->nbObjet;
-    int dimCrit=inst->capaciteSac[0];
+    int dimCrit= 0;
     for (int dim=1; dim< inst->nbDim; dim++){
-        if (inst->capaciteSac[dim]< dimCrit){
-            dimCrit = inst->capaciteSac[dim];
+        if (inst->capaciteSac[dim]< inst->capaciteSac[dimCrit]){
+            dimCrit = dim;
         }
     }
     int * sortedList = malloc (sizeof(int)*nb);
@@ -84,7 +84,7 @@ int * sortRatioValueDimCrit(instance *inst){
         size_t i;
         for (i=0; i< nb; i++){
             for (int j =0; j< nb ;j++){
-                if ((inst->valeurObj[i]/dimCrit) < (inst->valeurObj[j]/dimCrit)){
+                if ((inst->valeurObj[i]/inst->poidObj[dimCrit][i]) < (inst->valeurObj[j]/inst->poidObj[dimCrit][j])){
                     int t = sortedList[j];
                     sortedList[j]=sortedList[i];
                     sortedList[i]=t;
