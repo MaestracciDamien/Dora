@@ -100,25 +100,33 @@ solution * heuristique(instance * inst, functionSort fun, int typeCodage)
     int l = 0;
     int j;
     int * poidObjet;
+     printf("%d , ", inst->nbObjet);
     int nb = inst->nbObjet;
+    int nbD = inst->nbDim;
+
+     puts("bonjour");
     int * sac= (int *) malloc (sizeof(int)* nb);
-    for(int p =0; p< nb; p ++)
+    for(int p =0; p< nbD; p ++)
         {
             sac[p] = inst->capaciteSac[p];
         }
-    solution * retour = initSolution(inst, typeCodage);
+         puts("bonjour");
+    solution * retour = (solution *) malloc (sizeof(solution));
+    initSolution(retour,inst, typeCodage);
     int * tab = (*fun)(inst);
+    printSolution(retour);
     while (l < nb)
     {
-        poidObjet = (int *) malloc (sizeof(int)* nb);
-        for(int p =0; p< nb; p ++)
+        j = tab[l];
+        poidObjet = (int *) malloc (sizeof(int)* nbD);
+        for(int p =0; p< nbD; p ++)
         {
-            poidObjet[p] = inst->poidObj[p][l];
+            poidObjet[p] = inst->poidObj[p][j];
         }
-        if (isItemFitting(poidObjet,sac,nb))
+        if (isItemFitting(poidObjet,sac,nbD))
         {
-            addItemToBag(poidObjet,sac,nb);
-            retour->codageDirect[l] = 1;
+            addItemToBag(poidObjet,sac,nbD);
+            retour->codageDirect[j] = 1;
         }
         l++;
 
@@ -130,7 +138,7 @@ int isItemFitting(int * item, int * roomBag, int nbDim)
 {
     int test =1;
     int val;
-    int i;
+    int i= 0;
     while (test && (i < nbDim) )
     {
         val = roomBag[i] -  item[i];

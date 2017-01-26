@@ -32,65 +32,58 @@ void instToString(instance* inst)
 }
 
 
-instance * creerInstance(FILE *fp)
+void initInstance(instance * inst,FILE *fp)
 {
-    instance inst;
+    printf("addr",&inst);
     int i,j;
     char * s = (char *) malloc (sizeof(char)* STRING_BUFFER);
 
     fgets (s, STRING_BUFFER, fp );
     char *split = strtok(s, " ");
-    inst.nbObjet = stringToInt(split);
+    inst->nbObjet = stringToInt(split);
     split = strtok(NULL, " ");
-    inst.nbDim = stringToInt(split);
+    inst->nbDim = stringToInt(split);
 
-    //sautLigne(fp );
-   // fscanf(fp,"\n");
     fgets (s, STRING_BUFFER, fp );
     fgets (s, STRING_BUFFER, fp );
 
-    //sautLigne(fp );
     fgets (s, STRING_BUFFER, fp );
-    inst.valeurObj = (int *) malloc (sizeof(int) * inst.nbObjet);
-    if (inst.valeurObj == NULL) exit(-1);
+    inst->valeurObj = (int *) malloc (sizeof(int) * inst->nbObjet);
+    if (inst->valeurObj == NULL) exit(-1);
     split= strtok(s, " ");
-    for (i =0; i< inst.nbObjet; i++)
+    for (i =0; i< inst->nbObjet; i++)
     {
-        inst.valeurObj[i] = stringToInt(split);
+        inst->valeurObj[i] = stringToInt(split);
         split = strtok(NULL, " ");
     }
     fgets (s, STRING_BUFFER, fp );
-    //sautLigne( fp );
-    inst.poidObj = (int **) malloc (sizeof(int *) * inst.nbDim);
-    if (inst.poidObj == NULL) exit(-1);
-    for (i =0; i<inst.nbDim; i++)
+    inst->poidObj = (int **) malloc (sizeof(int *) * inst->nbDim);
+    if (inst->poidObj == NULL) exit(-1);
+    for (i =0; i<inst->nbDim; i++)
     {
-        inst.poidObj[i] = (int *) malloc (sizeof(int) * inst.nbObjet);
-        if (inst.poidObj[i] == NULL) exit(-1);
+        inst->poidObj[i] = (int *) malloc (sizeof(int) * inst->nbObjet);
+        if (inst->poidObj[i] == NULL) exit(-1);
         fgets (s, STRING_BUFFER, fp );
         split= strtok(s, " ");
-        for (j =0; j< inst.nbObjet; j++)
+        for (j =0; j< inst->nbObjet; j++)
         {
-            inst.poidObj[i][j] = stringToInt(split);
+            inst->poidObj[i][j] = stringToInt(split);
             split = strtok(NULL, " ");
         }
 
     }
     fgets (s, STRING_BUFFER, fp );
-
-    //sautLigne( fp );
     fgets (s, STRING_BUFFER, fp );
-    inst.capaciteSac = (int *) malloc (sizeof(int)* inst.nbDim);
-    if (inst.capaciteSac == NULL) exit(-1);
+    inst->capaciteSac = (int *) malloc (sizeof(int)* inst->nbDim);
+    if (inst->capaciteSac == NULL) exit(-1);
     split= strtok(s, " ");
-    for (i =0; i< inst.nbDim; i++)
+    for (i =0; i< inst->nbDim; i++)
     {
-        inst.capaciteSac[i] = stringToInt(split);
+        inst->capaciteSac[i] = stringToInt(split);
         split = strtok(NULL, " ");
     }
 
-    instToString(&inst);
-    return &inst;
+    instToString(inst);
 }
 
 void deleteInstance(instance*  inst)

@@ -21,9 +21,18 @@ void parseur(char* chemin)
     {
         sautLigne( fp );
         sautLigne( fp );
-        instance * inst =creerInstance(fp);
+        instance * inst = (instance *) malloc (sizeof(instance));
+        initInstance(inst,fp);
         solution * sol = heuristique(inst,function,0);
         printSolution(sol);
+        if (isSolutionPossible(sol))
+        {
+            printf("la solution est réalisable et sa valeur objective est: %d",evalSolution(sol));
+        }
+        else
+        {
+            puts ("la solution n'est pas réalisable");
+        }
         i++;
     }
 

@@ -2,13 +2,13 @@
 
 
 
-solution * initSolution(instance * inst, int type)
+void initSolution(solution * sol,instance * inst, int type)
 {
     int i;
-    solution * sol=NULL;
     sol->typeCodage = type;
     sol->inst = inst;
     sol->codageDirect = (int *) malloc (sizeof(int) * inst->nbObjet);
+    printf("nb Objet :%d",inst->nbObjet);
     for (i =0; i < inst->nbObjet; i++)
     {
         sol->codageDirect[i] = 0;
@@ -19,8 +19,6 @@ solution * initSolution(instance * inst, int type)
         sol->codageIndirect[i] = i;
     }
     sol->fileSolution = NULL;
-
-    return sol;
 }
 void decodeur(solution * sol)
 {
@@ -111,7 +109,7 @@ void printSolution(solution * sol){
     int i;
     printf("%s","[ ");
     if (sol->typeCodage == 0){
-        for (i =0; i < sol->inst->nbObjet-1; i++){
+        for (i =0; i < sol->inst->nbObjet; i++){
             printf("%d , ", sol->codageDirect[i]);
         }
         printf("%d", sol->codageDirect[i]);

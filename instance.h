@@ -12,5 +12,5 @@ typedef struct
     int * capaciteSac;
 }instance;
 #endif
-instance * creerInstance(FILE *fp);
+void initInstance(instance * inst,FILE *fp);
 void instToString(instance* inst);
