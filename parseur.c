@@ -25,6 +25,8 @@ void parseur(char* chemin)
         initInstance(inst,fp);
         solution * sol = heuristique(inst,function,0);
         printSolution(sol);
+        sol = heuristique(inst,function,1);
+        printSolution(sol);
         if (isSolutionPossible(sol))
         {
             printf("la solution est réalisable et sa valeur objective est: %d",evalSolution(sol));

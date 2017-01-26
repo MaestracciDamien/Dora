@@ -127,6 +127,8 @@ solution * heuristique(instance * inst, functionSort fun, int typeCodage)
 {
     int l = 0;
     int j;
+    int idInd =0;
+    int temp;
     int * poidObjet;
     int nb = inst->nbObjet;
     int nbD = inst->nbDim;
@@ -138,7 +140,6 @@ solution * heuristique(instance * inst, functionSort fun, int typeCodage)
     solution * retour = (solution *) malloc (sizeof(solution));
     initSolution(retour,inst, typeCodage);
     int * tab = (*fun)(inst);
-    printSolution(retour);
     while (l < nb)
     {
         j = tab[l];
@@ -150,7 +151,18 @@ solution * heuristique(instance * inst, functionSort fun, int typeCodage)
         if (isItemFitting(poidObjet,sac,nbD))
         {
             addItemToBag(poidObjet,sac,nbD);
-            retour->codageDirect[j] = 1;
+            if (retour->typeCodage == 0)
+            {
+                retour->codageDirect[j] = 1;
+            }
+            else
+            {
+                temp = retour->codageIndirect[idInd];
+                retour->codageIndirect[idInd] =j;
+                retour->codageIndirect[j] = temp;
+                idInd++;
+            }
+
         }
         l++;
 
