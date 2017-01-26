@@ -34,7 +34,6 @@ void instToString(instance* inst)
 
 void initInstance(instance * inst,FILE *fp)
 {
-    printf("addr",&inst);
     int i,j;
     char * s = (char *) malloc (sizeof(char)* STRING_BUFFER);
 
