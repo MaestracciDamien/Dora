@@ -13,7 +13,6 @@
 				<Option compiler="gcc" />
 				<Option parameters='&quot;~/Documents/3A/proj2/Dora/data/MKP-Instances/_mknapcb1_res.txt&quot;' />
 				<Compiler>
-					<Add option="-std=c99" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -33,8 +32,8 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename=".gitignore" />
 		<Unit filename="Dora.depend" />
-		<Unit filename="cmd.h" />
 		<Unit filename="codage.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -61,7 +60,6 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="parser.h" />
 		<Unit filename="parseur.c">
 			<Option compilerVar="CC" />
 		</Unit>

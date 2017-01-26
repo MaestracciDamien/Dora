@@ -4,8 +4,8 @@
 #include <limits.h>
 #include "instance.h"
 #include "parseur.h"
-
-
+#include "codage.h"
+#include "heuristiques.h"
 
 
 int stringToInt(char * s)

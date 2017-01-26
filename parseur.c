@@ -13,7 +13,7 @@ void parseur(char* chemin)
     int i =0;
     fgets (s, 100, fp );
     sautLigne( fp );
-
+    functionSort function = &sortRandom;
     split = strtok(s, " ");
     nbInstances = stringToInt(split);
     free(s);
@@ -21,7 +21,9 @@ void parseur(char* chemin)
     {
         sautLigne( fp );
         sautLigne( fp );
-        creerInstance(fp);
+        instance * inst =creerInstance(fp);
+        solution * sol = heuristique(inst,function,0);
+        printSolution(sol);
         i++;
     }
 

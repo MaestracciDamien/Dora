@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "instance.h"
-
+#ifndef SOLUTION
+#define SOLUTION
 typedef struct
 {
     int typeCodage;
@@ -9,7 +10,7 @@ typedef struct
     int * codageIndirect;
     FILE * fileSolution;
 }solution;
-
+#endif
 
 void decodeur(solution * sol);
 int evalSolution(solution * sol);
