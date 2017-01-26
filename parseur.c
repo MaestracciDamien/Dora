@@ -13,7 +13,7 @@ void parseur(char* chemin)
     int i =0;
     fgets (s, 100, fp );
     sautLigne( fp );
-    functionSort function = &sortRatioValueDimCrit;
+    functionSort function = &sortValuePoids;
     split = strtok(s, " ");
     nbInstances = stringToInt(split);
     free(s);

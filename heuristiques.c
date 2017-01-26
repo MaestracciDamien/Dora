@@ -106,12 +106,12 @@ int * sortValuePoids(instance *inst){
         for (i=0; i< nb; i++){
             int poidsI =0;
             for (int dim=0;dim<inst->nbDim;dim++){
-                poidsI+= inst->poidObj[i][dim];
+                poidsI+= inst->poidObj[dim][i];
             }
             for (int j =0; j< nb ;j++){
                 int poidsJ=0;
                 for (int dim=0;dim<inst->nbDim;dim++){
-                    poidsJ+=inst->poidObj[j][dim];
+                    poidsJ+=inst->poidObj[dim][j];
                 }
                 if (poidsI > poidsJ){
                     int t = sortedList[j];
