@@ -95,6 +95,34 @@ int * sortRatioValueDimCrit(instance *inst){
     return sortedList;
 };
 
+int * sortValuePoids(instance *inst){
+    int nb = inst->nbObjet;
+    int * sortedList = malloc (sizeof(int)*nb);
+    for( int i=0;i<nb;i++){
+        sortedList[i]=i;
+    }
+    if (nb>1){
+        size_t i;
+        for (i=0; i< nb; i++){
+            int poidsI =0;
+            for (int dim=0;dim<inst->nbDim;dim++){
+                poidsI+= inst->poidObj[i][dim];
+            }
+            for (int j =0; j< nb ;j++){
+                int poidsJ=0;
+                for (int dim=0;dim<inst->nbDim;dim++){
+                    poidsJ+=inst->poidObj[j][dim];
+                }
+                if (poidsI > poidsJ){
+                    int t = sortedList[j];
+                    sortedList[j]=sortedList[i];
+                    sortedList[i]=t;
+                }
+            }
+        }
+    }
+    return sortedList;
+};
 solution * heuristique(instance * inst, functionSort fun, int typeCodage)
 {
     int l = 0;
