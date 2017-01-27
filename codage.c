@@ -8,7 +8,6 @@ void initSolution(solution * sol,instance * inst, int type)
     sol->typeCodage = type;
     sol->inst = inst;
     sol->codageDirect = (int *) malloc (sizeof(int) * inst->nbObjet);
-    printf("nb Objet :%d",inst->nbObjet);
     for (i =0; i < inst->nbObjet; i++)
     {
         sol->codageDirect[i] = 0;
@@ -23,6 +22,7 @@ void initSolution(solution * sol,instance * inst, int type)
 void decodeur(solution * sol)
 {
     int i =0;
+    int val;
     int * valDimension;
     int nbDim = sol->inst->nbDim;
     int p;
@@ -33,13 +33,14 @@ void decodeur(solution * sol)
         valDimension[p] = sol->inst->capaciteSac[p];
     }
 
-    while (i != (sol->inst->nbObjet-1))
+    while (i  < (sol->inst->nbObjet))
     {
+        val = sol->codageIndirect[i];
         test =1;
         p =0;
         while ( (p< nbDim) && test)
         {
-            test = valDimension[p] - sol->inst->poidObj[p][i];
+            test = valDimension[p] - sol->inst->poidObj[p][val];
             test = (test < 0)  ?  0  : 1;
             p++;
         }
@@ -47,9 +48,9 @@ void decodeur(solution * sol)
         {
          for (p=0; p <nbDim; p++)
             {
-                valDimension[p] -= sol->inst->poidObj[p][i];
+                valDimension[p] -= sol->inst->poidObj[p][val];
             }
-            sol->codageDirect[i] =1;
+            sol->codageDirect[val] =1;
         }
         i++;
 
@@ -97,12 +98,12 @@ int isSolutionPossible(solution * sol)
             {
                 valDimension[j] -= sol->inst->poidObj[j][i];
                 if (valDimension[j] < 0) retour =0;
-                j++;
             }
 
          }
          i++;
     }
+
     return retour;
 }
 void printSolution(solution * sol){
@@ -143,4 +144,22 @@ void solution2File(solution * sol){
     }
     fprintf(f,"%s\n"," ]" );
     fclose(f);
+}
+
+
+solution * copySolution(solution * sol)
+{
+    solution * retour = (solution *) malloc(sizeof(solution));
+    retour->typeCodage = sol->typeCodage;
+    retour->inst = sol->inst;
+    retour->fileSolution = sol->fileSolution;
+    retour->codageDirect = (int *) malloc(sizeof(int)*retour->inst->nbObjet);
+    retour->codageIndirect = (int *) malloc(sizeof(int)*retour->inst->nbObjet);
+    for (int i=0; i<retour->inst->nbObjet; i++)
+    {
+        retour->codageDirect[i] = sol->codageDirect[i];
+        retour->codageIndirect[i] = sol->codageIndirect[i];
+    }
+    return retour;
+
 }

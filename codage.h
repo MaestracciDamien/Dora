@@ -18,4 +18,5 @@ int evalSolution(solution * sol);
 int isSolutionPossible(solution * sol);
 void printSolution(solution * sol);
 void solution2File(solution * sol);
+solution * copySolution(solution * sol);
 

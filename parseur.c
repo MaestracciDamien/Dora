@@ -13,7 +13,7 @@ void parseur(char* chemin)
     int i =0;
     fgets (s, 100, fp );
     sautLigne( fp );
-    functionSort function = &sortValuePoids;
+    functionSort function = &sortRatioValueDimCrit;
     split = strtok(s, " ");
     nbInstances = stringToInt(split);
     free(s);
@@ -23,17 +23,23 @@ void parseur(char* chemin)
         sautLigne( fp );
         instance * inst = (instance *) malloc (sizeof(instance));
         initInstance(inst,fp);
-        solution * sol = heuristique(inst,function,0);
-        printSolution(sol);
-        sol = heuristique(inst,function,1);
-        printSolution(sol);
+        //solution * sol = heuristique(inst,function,0);
+        //printf("Direct: %d,",evalSolution(sol));
+        //printSolution(sol);
+        //sol = heuristique(inst,function,1);
+        //printSolution(sol);
+        //decodeur(sol);
+        //sol->typeCodage = 0;
+        //printSolution(sol);
+        //solution * sol = localSearch(inst, function,1);
+        solution * sol = tabooSearch(10,10,1,inst,function,0);
         if (isSolutionPossible(sol))
         {
-            printf("la solution est réalisable et sa valeur objective est: %d",evalSolution(sol));
+            printf("la solution est realisable et sa valeur objective est: %d",evalSolution(sol));
         }
         else
         {
-            puts ("la solution n'est pas réalisable");
+            puts ("la solution n'est pas realisable");
         }
         i++;
     }

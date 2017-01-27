@@ -82,7 +82,7 @@ void initInstance(instance * inst,FILE *fp)
         split = strtok(NULL, " ");
     }
 
-    instToString(inst);
+    //instToString(inst);
 }
 
 void deleteInstance(instance*  inst)
