@@ -64,6 +64,7 @@ int main(int argc, char *argv[])
         {
         case 1:
             {
+
             int choixSort = stringToInt(argv[4]);
             functionSort fun = wichSort(choixSort);
             sol = heuristique(instCour,fun,typeCodage);

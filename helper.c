@@ -5,6 +5,7 @@
 int stringToInt(char * s)
 {
     int retour = atoi(s);
+    printf("%d\n",retour);
     return retour;
 }
 

@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='&quot;~/Documents/3A/proj2/Dora/data/MKP-Instances/_mknapcb1_res.txt&quot;' />
+				<Option parameters='&quot;~/Documents/3A/proj2/Dora/data/MKP-Instances/_mknapcb9_res.txt&quot; 0 3 4 50 10 1' />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -49,6 +49,10 @@
 		<Unit filename="data/MKP-Instances/_mknapcb7_res.txt" />
 		<Unit filename="data/MKP-Instances/_mknapcb8_res.txt" />
 		<Unit filename="data/MKP-Instances/_mknapcb9_res.txt" />
+		<Unit filename="helper.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="helper.h" />
 		<Unit filename="heuristiques.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -60,14 +64,14 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="metaheuristiques.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="metaheuristiques.h" />
 		<Unit filename="parseur.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="parseur.h" />
-		<Unit filename="sortie.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="sortie.h" />
 		<Unit filename="test.txt" />
 		<Extensions>
 			<envvars />
