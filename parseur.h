@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "heuristiques.h"
-#include "metaheuristiques.h"
+#include "helper.h"
+#include "instance.h"
 typedef struct
 {
     FILE * fp;

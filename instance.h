@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "helper.h"
 #include <string.h>
 #ifndef INSTANCE
 #define INSTANCE
@@ -12,5 +13,5 @@ typedef struct
     int * capaciteSac;
 }instance;
 #endif
-void initInstance(instance * inst,FILE *fp);
-void instToString(instance* inst);
+instance * initInstance(FILE *fp);
+void printInst(instance* inst);

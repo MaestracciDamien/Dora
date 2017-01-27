@@ -12,7 +12,7 @@ typedef struct
 }solution;
 #endif
 
-void initSolution(solution * sol,instance * inst, int type);
+solution *initSolution(instance * inst, int type);
 void decodeur(solution * sol);
 int evalSolution(solution * sol);
 int isSolutionPossible(solution * sol);

@@ -7,37 +7,37 @@
 solution * localSearch(instance * inst,functionSort fun, int typeCodage)
 {
     int continuer = 1;
-    int fBest;
-    int fCourant;
-    int fPrec;
-    solution * solutionBest;
+    int fBest; // meilleur valeur de la fonction objective
+    int fCourant; // valeur de la solution courante
+    int fPrec;  // valeur de la solution precedente
+    solution * solutionBest; // meilleur solution
     solution * solutionCourante = (solution *) malloc (sizeof(solution));
-    solutionCourante = heuristique (inst,fun, typeCodage);
+    solutionCourante = heuristique (inst,fun, typeCodage); // on calcule la premiere solution a partir d'une heuristique
     solutionBest = solutionCourante;
     fBest = evalSolution(solutionBest);
     fCourant = evalSolution(solutionCourante);
     fPrec = fCourant;
     int temp;
-    int fBestVoisin;
+    int fBestVoisin; // valeur du meilleur voisin
     solution * solutionVoisine;
     solution * solutionBestVoisine;
 
     while (continuer)
     {
         fBestVoisin = 0;
-            if (typeCodage == 0)
+            if (typeCodage == 0) // dans le cas du codage direct
             {
                 for (int j=0; j < inst->nbObjet; j++)
                 {
-                    if (solutionCourante->codageDirect[j] == 0)
+                    if (solutionCourante->codageDirect[j] == 0) // si  a l'emplacement j la solution comporte un 0
                     {
-                        solutionVoisine = copySolution(solutionCourante);
-                        solutionVoisine->codageDirect[j] =1;
-                        if(isSolutionPossible(solutionVoisine))
+                        solutionVoisine = copySolution(solutionCourante); // on copie la solution courante
+                        solutionVoisine->codageDirect[j] =1; // et on change la valeur de j afin de creer un voisin avec un objet en plus dans le sac
+                        if(isSolutionPossible(solutionVoisine)) // si la nouvelle solution est possible
                         {
-                            if(evalSolution(solutionVoisine)>fBestVoisin)
+                            if(evalSolution(solutionVoisine)>fBestVoisin) // et si la nouvelle valeur objective est meilleur que celle du meilleur voisin
                             {
-                                solutionBestVoisine = solutionVoisine;
+                                solutionBestVoisine = solutionVoisine; // meilleur voisin devient voisin courant, de meme pour la valeur objective
                                 fBestVoisin = evalSolution(solutionVoisine);
                             }
                         }
@@ -50,16 +50,19 @@ solution * localSearch(instance * inst,functionSort fun, int typeCodage)
                 {
                     for(int j =0; j<(inst->nbObjet/2);j++)
                     {
-                        solutionVoisine = copySolution(solutionCourante);
-                        temp = solutionVoisine->codageIndirect[i];
-                        solutionVoisine->codageIndirect[i] = solutionVoisine->codageIndirect[j];
-                        solutionVoisine->codageIndirect[j] = temp;
-                        if(isSolutionPossible(solutionVoisine))
+                        if (i !=j)
                         {
-                            if(evalSolution(solutionVoisine)>fBestVoisin)
+                            solutionVoisine = copySolution(solutionCourante);
+                            temp = solutionVoisine->codageIndirect[i];
+                            solutionVoisine->codageIndirect[i] = solutionVoisine->codageIndirect[j];
+                            solutionVoisine->codageIndirect[j] = temp;
+                            if(isSolutionPossible(solutionVoisine))
                             {
-                                solutionBestVoisine = solutionVoisine;
-                                fBestVoisin = evalSolution(solutionVoisine);
+                                if(evalSolution(solutionVoisine)>fBestVoisin)
+                                {
+                                    solutionBestVoisine = solutionVoisine;
+                                    fBestVoisin = evalSolution(solutionVoisine);
+                                }
                             }
                         }
                     }
@@ -92,12 +95,15 @@ solution * tabooSearch(int nbIter, int tabooSize, int aspi, instance * inst,func
 {
     solution * solutionBest;
     int fBest;
+    int temp;
     int fCourant;
     int fBestVoisin;
     int nbTaboo =0;
     int isTaboo;
     int mouvUtil;
+    mouvement mouvUtilIndirect;
     int * tabooTable = (int *) malloc (sizeof(int)*tabooSize);
+    mouvement * tabooTableIndirect = (mouvement *) malloc (sizeof(mouvement)*tabooSize);
     int i= 0;
     solution * solutionCourante = (solution *) malloc (sizeof(solution));
     solutionCourante = heuristique (inst,fun, typeCodage);
@@ -149,28 +155,60 @@ solution * tabooSearch(int nbIter, int tabooSize, int aspi, instance * inst,func
                     }
                 }
             }
-                fCourant = fBestVoisin;
-                solutionCourante = solutionBestVoisine;
-                nbTaboo ++;
-                if(nbTaboo== tabooSize)
+            else
+            {
+                for(int i =0; i<(inst->nbObjet/2);i++)
                 {
-                    int temp = tabooTable[0];
-                    for (int p =nbTaboo; p>0; p--)
+                    for (int j=0; j < inst->nbObjet; j++)
                     {
-                        tabooTable[p] = tabooTable[p-1];
-                    }
-                    tabooTable[0] = mouvUtil;
-                    nbTaboo--;
+                            mouvement mouvCourant = {i,j};
+                            isTaboo = isInTableIndirect(mouvCourant,tabooTable,nbTaboo);
+                            if ((!isTaboo)|| aspi)
+                            {
+                                solutionVoisine = copySolution(solutionCourante);
+                                temp = solutionVoisine->codageIndirect[i];
+                                solutionVoisine->codageIndirect[i] = solutionVoisine->codageIndirect[j];
+                                solutionVoisine->codageIndirect[j] = temp;
+                                if((!isTaboo))
+                                {
+                                    if(isSolutionPossible(solutionVoisine))
+                                    {
+                                        if(evalSolution(solutionVoisine)>fBestVoisin)
+                                        {
+                                        solutionBestVoisine = solutionVoisine;
+                                        fBestVoisin = evalSolution(solutionVoisine);
+                                        mouvUtilIndirect = mouvCourant;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if(isSolutionPossible(solutionVoisine))
+                                    {
+                                        if(evalSolution(solutionVoisine)>fBest)
+                                        {
+                                        solutionBestVoisine = solutionVoisine;
+                                        fBestVoisin = evalSolution(solutionVoisine);
+                                        mouvUtilIndirect = mouvCourant;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                }
+            }
+                if (typeCodage == 0)
+                {
+                    nbTaboo = addIntToTab(mouvUtil,tabooTable,tabooSize,nbTaboo);
                 }
                 else
                 {
-                    int temp = tabooTable[0];
-                    for (int p =nbTaboo; p>0; p--)
-                    {
-                        tabooTable[p] = tabooTable[p-1];
-                    }
-                    tabooTable[0] = mouvUtil;
+                    nbTaboo = addIntToTabIndirect(mouvUtilIndirect,tabooTableIndirect,tabooSize,nbTaboo);
                 }
+                fCourant = fBestVoisin;
+                solutionCourante = solutionBestVoisine;
+
                 if(fCourant>fBest)
                 {
                     fBest = fCourant;
@@ -182,8 +220,69 @@ solution * tabooSearch(int nbIter, int tabooSize, int aspi, instance * inst,func
     return solutionBest;
 
 }
+int addIntToTab(int i, int * tab, int size, int nb)
+{
+                nb ++;
+                if(nb== size)
+                {
+                    for (int p =nb; p>0; p--)
+                    {
+                        tab[p] = tab[p-1];
+                    }
+                    tab[0] = i;
+                    nb--;
+                }
+                else
+                {
+                    for (int p =nb; p>0; p--)
+                    {
+                        tab[p] = tab[p-1];
+                    }
+                    tab[0] = i;
+                }
+                return nb;
+}
 
+int addIntToTabIndirect(mouvement i, mouvement * tab, int size, int nb)
+{
+                nb ++;
+                if(nb== size)
+                {
+                    for (int p =nb; p>0; p--)
+                    {
+                        tab[p] = tab[p-1];
+                    }
+                    tab[0] = i;
+                    nb--;
+                }
+                else
+                {
+                    for (int p =nb; p>0; p--)
+                    {
+                        tab[p] = tab[p-1];
+                    }
+                    tab[0] = i;
+                }
+                return nb;
+}
 
+int equalMove(mouvement mouvA, mouvement mouvB)
+{
+    if (((mouvA.a==mouvB.a) && (mouvA.b==mouvB.b)) || ((mouvA.a==mouvB.b) && (mouvA.b==mouvB.a)) ) return 1;
+    else return 0;
+}
+
+int isInTableIndirect(mouvement mouv, mouvement * tab, int nb)
+{
+    int i=0;
+    int retour =0;
+    while (i < nb && !retour)
+    {
+        if(equalMove(mouv,tab[i])) retour=1;
+        i++;
+    }
+    return retour;
+}
 
 int isInTable(int nombre, int * tab, int nb)
 {
@@ -243,11 +342,14 @@ void reparation(solution * sol)
 solution ** croisementEnfants(solution * parent1, solution * parent2)
 {
     solution ** retour = (solution **) malloc (sizeof(solution *) *2);
-    retour[0]= (solution *) malloc (sizeof(solution));
-    retour[1]= (solution *) malloc (sizeof(solution));
+    if (retour == NULL)
+    {
+        puts("error memory allocation");
+        exit(-1);
+    }
+    retour[0]= initSolution(parent1->inst,0);
+    retour[1]= initSolution(parent1->inst,0);
     int nb = parent1->inst->nbObjet;
-    initSolution(retour[0],parent1->inst,0);
-    initSolution(retour[1],parent1->inst,0);
     for (int i =0; i<nb; i++)
     {
         retour[0]->codageDirect[i] = parent1->codageDirect[i] + parent2->codageDirect[i];
@@ -274,6 +376,11 @@ void mutation (solution * sol)
 solution * geneticAlgo(int sizePopu, int nbIterMax, int pMut, instance * inst)
 {
     solution ** populationCourante = (solution **) malloc (sizeof(solution *)* sizePopu );
+    if (populationCourante == NULL)
+    {
+        puts("error memory allocation");
+        exit(-1);
+    }
     solution ** populationEnfant ;
     functionSort fun = &sortRandom;
     solution * solutionBest;
@@ -293,12 +400,27 @@ solution * geneticAlgo(int sizePopu, int nbIterMax, int pMut, instance * inst)
     }
     while (i < nbIterMax)
     {
-          populationEnfant  = (solution **) malloc (sizeof(solution *)* sizePopu );
+        populationEnfant  = (solution **) malloc (sizeof(solution *)* sizePopu );
+        if (populationEnfant == NULL)
+        {
+            puts("error memory allocation");
+            exit(-1);
+        }
           for (int j =0; j <(sizePopu); j+=2)
           {
                 solution ** enfants = croisementEnfants(populationCourante[j], populationCourante[j+1]);
                 populationEnfant[j] = (solution *) malloc (sizeof(solution));
+                if (populationEnfant[j] == NULL)
+                {
+                    puts("error memory allocation");
+                    exit(-1);
+                }
                 populationEnfant[j+1] = (solution *) malloc (sizeof(solution));
+                if (populationEnfant[j+1] == NULL)
+                {
+                    puts("error memory allocation");
+                    exit(-1);
+                }
                 populationEnfant[j] = enfants[0];
                 populationEnfant[j+1] = enfants[1];
           }

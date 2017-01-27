@@ -1,8 +1,15 @@
 # include "heuristiques.h"
 
+// retourne un tableau d'entier des objets d'une instance triŽ de faon alŽatoire
+// /!\ il revient a l'utilisateur de liberer le tableau d'entier retournŽ
 int * sortRandom(instance *inst){
     int nb = inst->nbObjet;
     int * sortedList = malloc (sizeof(int)*nb);
+    if (sortedList == NULL)
+    {
+        puts("error memory allocation");
+        exit(-1);
+    }
     for( int i=0;i<nb;i++){
         sortedList[i]=i;
     }
@@ -18,9 +25,16 @@ int * sortRandom(instance *inst){
     return sortedList;
 };
 
+// retourne un tableau d'entier des objets d'une instance triŽ selon leur valeur (par ordre decroissant)
+// /!\ il revient a l'utilisateur de liberer le tableau d'entier retournŽ
 int * sortValue(instance *inst){
     int nb = inst->nbObjet;
     int * sortedList = malloc (sizeof(int)*nb);
+    if (sortedList == NULL)
+    {
+        puts("error memory allocation");
+        exit(-1);
+    }
     for( int i=0;i<nb;i++){
         sortedList[i]=i;
     }
@@ -39,9 +53,16 @@ int * sortValue(instance *inst){
     return sortedList;
 };
 
+// retourne un tableau d'entier des objets d'une instance triŽ de facon decroissante suivant un ratio ( Valeur/(poid dimension 1+ poid dimension 2 + ...))
+// /!\ il revient a l'utilisateur de liberer le tableau d'entier retournŽ
 int * sortRatioValueSum(instance *inst){
     int nb = inst->nbObjet;
     int * sortedList = malloc (sizeof(int)*nb);
+    if (sortedList == NULL)
+    {
+        puts("error memory allocation");
+        exit(-1);
+    }
     for( int i=0;i<nb;i++){
         sortedList[i]=i;
     }
@@ -68,6 +89,8 @@ int * sortRatioValueSum(instance *inst){
     return sortedList;
 };
 
+// retourne un tableau d'entier des objets d'une instance triŽ de facon decroissante suivant un ratio ( valeur / poid de l'objet dans la dimension critique)
+// /!\ il revient a l'utilisateur de liberer le tableau d'entier retournŽ
 int * sortRatioValueDimCrit(instance *inst){
     int nb = inst->nbObjet;
     int dimCrit= 0;
@@ -77,6 +100,11 @@ int * sortRatioValueDimCrit(instance *inst){
         }
     }
     int * sortedList = malloc (sizeof(int)*nb);
+    if (sortedList == NULL)
+    {
+        puts("error memory allocation");
+        exit(-1);
+    }
     for( int i=0;i<nb;i++){
         sortedList[i]=i;
     }
@@ -95,9 +123,16 @@ int * sortRatioValueDimCrit(instance *inst){
     return sortedList;
 };
 
+// retourne un tableau d'entier des objets d'une instance triŽ de facon croissante par la somme des poids de l'objet dans toute les dimensions
+// /!\ il revient a l'utilisateur de liberer le tableau d'entier retournŽ
 int * sortValuePoids(instance *inst){
     int nb = inst->nbObjet;
     int * sortedList = malloc (sizeof(int)*nb);
+    if (sortedList == NULL)
+    {
+        puts("error memory allocation");
+        exit(-1);
+    }
     for( int i=0;i<nb;i++){
         sortedList[i]=i;
     }
@@ -123,39 +158,50 @@ int * sortValuePoids(instance *inst){
     }
     return sortedList;
 };
+
+
 solution * heuristique(instance * inst, functionSort fun, int typeCodage)
 {
-    int l = 0;
+    int l = 0; //emplacement dans la table des priorites
     int j;
     int idInd =0;
     int temp;
-    int * poidObjet;
+    int * poidObjet; // sac
     int nb = inst->nbObjet;
     int nbD = inst->nbDim;
     int * sac= (int *) malloc (sizeof(int)* nb);
-    for(int p =0; p< nbD; p ++)
+    if (sac == NULL)
+    {
+        puts("error memory allocation");
+        exit(-1);
+    }
+    for(int p =0; p< nbD; p ++) //on initialise le sac avec ses capacites dans chaque dimension
         {
             sac[p] = inst->capaciteSac[p];
         }
-    solution * retour = (solution *) malloc (sizeof(solution));
-    initSolution(retour,inst, typeCodage);
+    solution * retour = initSolution(inst, typeCodage);
     int * tab = (*fun)(inst);
     while (l < nb)
     {
-        j = tab[l];
+        j = tab[l]; //on prend l'objet correspondant
         poidObjet = (int *) malloc (sizeof(int)* nbD);
+        if (poidObjet == NULL)
+        {
+            puts("error memory allocation");
+            exit(-1);
+        }
         for(int p =0; p< nbD; p ++)
         {
             poidObjet[p] = inst->poidObj[p][j];
         }
-        if (isItemFitting(poidObjet,sac,nbD))
+        if (isItemFitting(poidObjet,sac,nbD)) // on regarde si l'objet peut rentrer dans le sac
         {
-            addItemToBag(poidObjet,sac,nbD);
-            if (retour->typeCodage == 0)
+            addItemToBag(poidObjet,sac,nbD); // si il peut on ajoute l'objet
+            if (retour->typeCodage == 0) // on change le codage de la solution pour representer l'ajout de l'objet
             {
                 retour->codageDirect[j] = 1;
             }
-            else
+            else // meme chose pour le codage indirecte
             {
                 temp = retour->codageIndirect[idInd];
                 retour->codageIndirect[idInd] =j;
@@ -170,11 +216,14 @@ solution * heuristique(instance * inst, functionSort fun, int typeCodage)
     return retour;
 }
 
+
+// regarde si un objet peut aller dans un sac, si il y a assez de place pour accueillir l'objet
 int isItemFitting(int * item, int * roomBag, int nbDim)
 {
     int test =1;
     int val;
     int i= 0;
+    // on regarde dans chaque dimension du sac, si celle ci peut accueillir le poid de l'objet dans la dimension
     while (test && (i < nbDim) )
     {
         val = roomBag[i] -  item[i];
@@ -187,6 +236,8 @@ int isItemFitting(int * item, int * roomBag, int nbDim)
     return test;
 }
 
+// ajoute le poid d'un objet pour chaque dimension dans un sac
+// /!\ il revient ˆ l'utilisateur de verifier que le peut accueillir l'objet (cf isItemFitting)
 void addItemToBag(int * item, int * roomBag, int nbDim)
 {
 

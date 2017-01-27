@@ -1,7 +1,9 @@
-#define STRING_BUFFER 2000
+#define STRING_BUFFER 20000
 #include "instance.h"
 
-void instToString(instance* inst)
+
+// affichage d'une instance sur le terminal
+void printInst(instance* inst)
 {
     int i,j;
     printf("\n nbObjet: %d", inst->nbObjet);
@@ -31,12 +33,18 @@ void instToString(instance* inst)
     puts("]");
 }
 
-
-void initInstance(instance * inst,FILE *fp)
+//instancie une instance a partir des donnes contenue dans le fichier fp
+// /!\ la liberation de l'instance renvoye est a la charge de l'utilisateur de la fonction
+instance * initInstance(FILE *fp)
 {
     int i,j;
+    instance * inst = (instance *) malloc (sizeof(instance));
     char * s = (char *) malloc (sizeof(char)* STRING_BUFFER);
-
+    if(s ==NULL)
+    {
+        puts("error memory allocation");
+        exit(-1);
+    }
     fgets (s, STRING_BUFFER, fp );
     char *split = strtok(s, " ");
     inst->nbObjet = stringToInt(split);
@@ -45,7 +53,6 @@ void initInstance(instance * inst,FILE *fp)
 
     fgets (s, STRING_BUFFER, fp );
     fgets (s, STRING_BUFFER, fp );
-
     fgets (s, STRING_BUFFER, fp );
     inst->valeurObj = (int *) malloc (sizeof(int) * inst->nbObjet);
     if (inst->valeurObj == NULL) exit(-1);
@@ -81,11 +88,5 @@ void initInstance(instance * inst,FILE *fp)
         inst->capaciteSac[i] = stringToInt(split);
         split = strtok(NULL, " ");
     }
-
-    //instToString(inst);
-}
-
-void deleteInstance(instance*  inst)
-{
-
+    return inst;
 }

@@ -11,8 +11,6 @@ parseur * initParseur(char* chemin)
 
     char * s = (char *) malloc (sizeof(char)* 100);
     char * split;
-
-    int i =0;
     fgets (s, 100, fp );
     sautLigne( fp );
     split = strtok(s, " ");
@@ -22,14 +20,18 @@ parseur * initParseur(char* chemin)
     return retour;
 }
 
+// retourne la prochaine instance à partir d'un parseur
 instance * nextInstance(parseur * pars)
 {
         sautLigne( pars->fp );
         sautLigne( pars->fp );
-        instance * inst = (instance *) malloc (sizeof(instance));
-        initInstance(inst,pars->fp);
+        instance * inst = initInstance(pars->fp);
+        if(inst == NULL)
+        {
+            puts("error memory allocation");
+            exit(-1);
+        }
+
         pars->pInstance++;
         return inst;
-
-
 }
