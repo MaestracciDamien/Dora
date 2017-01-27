@@ -1,1 +1,0 @@
-void parseur(char* chemin);
