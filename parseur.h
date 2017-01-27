@@ -3,5 +3,12 @@
 #include <string.h>
 #include "heuristiques.h"
 #include "metaheuristiques.h"
-void parseur(char* chemin);
+typedef struct
+{
+    FILE * fp;
+    int nbInstances;
+    int pInstance;
+}parseur;
+parseur * initParseur(char* chemin);
+instance * nextInstance();
 

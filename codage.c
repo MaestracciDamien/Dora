@@ -92,7 +92,7 @@ int isSolutionPossible(solution * sol)
     while (retour  && i< sol->inst->nbObjet)
     {
         int j;
-         if ( sol->codageDirect[i] == 1)
+         if ( sol->codageDirect[i] >= 1)
          {
             for (j=0; j <nbDim; j++)
             {
